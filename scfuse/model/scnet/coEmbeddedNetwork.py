@@ -10,7 +10,7 @@ import networkx as nx
 from networkx.algorithms import community
 import networkx.algorithms.community as nx_comm
 from sklearn.metrics import precision_recall_curve, auc
-import scNET.Utils as ut 
+import Utils as ut 
 import gseapy as gp
 import os
 
