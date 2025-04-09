@@ -15,8 +15,6 @@ import warnings
 
 NETWORK_CUTOFF = 0.5
 EXPRESSION_CUTOFF = 0.0
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-warnings.filterwarnings('ignore')
 
 def build_network(obj, net, biogrid_flag = False, human_flag = False):
     """
@@ -103,7 +101,7 @@ def crate_knn_batch(knn,idxs,k=15):
   row_indices, col_indices = torch.nonzero(adjacency_matrix, as_tuple=True)
   knn_edge_index = torch.stack((row_indices, col_indices))
   knn_edge_index = torch.unique(knn_edge_index, dim=1)
-  return knn_edge_index.to(device)
+  return knn_edge_index
 
 def build_knn_graph(obj):
     graph = obj.obsp["distances"].toarray()
@@ -145,7 +143,7 @@ def nx_to_pyg_edge_index(G, mapping=None):
     G = G.to_directed() if not nx.is_directed(G) else G
     if mapping is None:  
        mapping = dict(zip(G.nodes(), range(G.number_of_nodes())))
-    edge_index = torch.empty((2, G.number_of_edges()), dtype=torch.long).to(device)
+    edge_index = torch.empty((2, G.number_of_edges()), dtype=torch.long)
     for i, (src, dst) in enumerate(G.edges()):
         edge_index[0, i] = mapping[src]
         edge_index[1, i] = mapping[dst]

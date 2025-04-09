@@ -42,7 +42,6 @@ torch.backends.cudnn.benchmark = False
 
 # adata = scNET.main.pre_processing(adata,n_neighbors)
 
-
 '''
 here, obj contains gene expression data of cell x gene
 cell = 9172 and gene = 18531

@@ -1,21 +1,14 @@
 import torch
-from torch_geometric.data import InMemoryDataset, Data
+from torch.utils.data import Dataset
 
-class GraphDataset(InMemoryDataset):
-
-    def __init__(self, x, x_label, x_be_edges, x_ge_edges, x_batch_labels, x_group_labels, transform=None):
-        self.root = '.'
-        super(GraphDataset, self).__init__(self.root, transform)
-        self.x_be_data = Data(x=torch.FloatTensor(x), edge_index=torch.LongTensor(x_be_edges).T, y=torch.LongTensor(x_label))
-        self.x_ge_data = Data(x=torch.LongTensor(x_ge_edges).T)
-        self.x_batch_data = Data(x=torch.LongTensor(x_batch_labels))
-        self.x_group_data = Data(x=torch.LongTensor(x_group_labels))
+class KNNDataset(Dataset):
+    def __init__(self, edge_index):
+        self.edge_index = edge_index.T
 
     def __len__(self):
-        return 4
+        return self.edge_index.shape[0]
 
     def __getitem__(self, idx):
-        return self.x_be_data, self.x_ge_data, self.x_batch_data, self.x_group_data
-    
+        return self.edge_index[idx,:]
     
     
